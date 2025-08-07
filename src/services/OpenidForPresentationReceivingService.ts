@@ -25,6 +25,13 @@ import { pemToBase64 } from "../util/pemToBase64";
 const privateKeyPem = fs.readFileSync(path.join(__dirname, "../../../keys/pem.key"), 'utf-8').toString();
 const leafCert = fs.readFileSync(path.join(__dirname, "../../../keys/pem.crt"), 'utf-8').toString();
 
+let registrationCertJws: string | undefined;
+const regCertPath = path.join(__dirname, "../../../keys/registration-cert.jws");
+
+if (fs.existsSync(regCertPath)) {
+  registrationCertJws = fs.readFileSync(regCertPath, 'utf-8').toString().trim();
+}
+
 enum ResponseMode {
 	DIRECT_POST = 'direct_post',
 	DIRECT_POST_JWT = 'direct_post.jwt'
@@ -173,7 +180,15 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 					}
 				}
 			},
-			transaction_data: transactionDataObject.length > 0 ? transactionDataObject : undefined
+			transaction_data: transactionDataObject.length > 0 ? transactionDataObject : undefined,
+			verifier_attestations: registrationCertJws
+				? [
+						{
+							format: "jwt",
+							data: registrationCertJws
+						}
+					]
+				: undefined,
 		})
 			.setIssuedAt()
 			.setProtectedHeader({
