@@ -298,7 +298,30 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 					key_attestations_required: {},
 				}
 			},
-			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema())
+			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema()),
+			disclosure_policy: {
+				policy: "attestationBased",
+				values: [
+					{
+						claims: [],
+						// The RP must present an authz_attestation credential
+						credentials: [
+							{
+								id: "authz_attestation",
+								format: "dc+sd-jwt",
+								meta: {
+									vct_values: ["https://example.com/authz_attestation_vct"]
+								},
+								// trusted_authorities: {
+								// 	type: "aki",          // authority key identifier
+								// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
+								// }
+							}
+						]
+					}
+				],
+				url: config.url + "/policy/pid-disclosure" // human-readable explanation
+			}
 		}
 	}
 }

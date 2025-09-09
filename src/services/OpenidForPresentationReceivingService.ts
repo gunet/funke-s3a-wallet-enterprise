@@ -137,6 +137,18 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 					return null;
 				}));
 		}
+		const verifierInfoJwt = await new SignJWT({
+			iss: new URL(responseUri).hostname,
+			sub: "x509_san_dns:" + new URL(responseUri).hostname,
+			cnf: { jwk: exportedEphPub },
+		})
+			.setProtectedHeader({
+				alg: 'ES256',
+				x5c: x5c,
+			})
+			.setIssuedAt()
+			.setExpirationTime("5m")
+			.sign(rsaImportedPrivateKey);
 
 		transactionDataObject = transactionDataObject.filter((td) => td !== null);
 		const signedRequestObject = await new SignJWT({
@@ -189,6 +201,11 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 						}
 					]
 				: undefined,
+			verifier_info: [{
+				"format": "jwt",
+				"data": verifierInfoJwt,
+				"credential_ids": ["authz_attestation"]
+			}]
 		})
 			.setIssuedAt()
 			.setProtectedHeader({
