@@ -3,7 +3,6 @@ import crypto from 'node:crypto';
 import { fromBase64Url } from "wallet-common/dist/utils/util";
 
 import { arrayBufferToBase64Url } from '../util/arrayBufferToBase64Url';
-import { fromBase64Url } from "wallet-common/dist/utils/util";
 
 
 export const ExampleTransactionData = () => {
