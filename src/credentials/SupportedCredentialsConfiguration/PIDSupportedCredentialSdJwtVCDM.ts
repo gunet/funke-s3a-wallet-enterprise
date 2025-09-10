@@ -308,10 +308,11 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 						credentials: [
 							{
 								id: "authz_attestation",
-								format: "dc+sd-jwt",
-								meta: {
-									vct_values: ["https://example.com/authz_attestation_vct"]
-								},
+								format: "jwt",
+								// format: "dc+sd-jwt",
+								// meta: {
+								// 	vct_values: ["https://example.com/authz_attestation_vct"]
+								// },
 								// trusted_authorities: {
 								// 	type: "aki",          // authority key identifier
 								// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
