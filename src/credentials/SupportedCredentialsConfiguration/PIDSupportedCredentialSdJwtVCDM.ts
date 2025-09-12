@@ -73,6 +73,27 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 		}
 	}
 
+	getDisclosureValues(){
+		return [
+			{
+				claims: [{ "path": ["verifier_id"] }],
+				credentials: [
+					{
+						id: "authorization_attestation",
+						format: VerifiableCredentialFormat.DC_SDJWT,
+						meta: {
+							vct_values: ["urn:eudi:authorization_attestation"]
+						},
+						// trusted_authorities: {
+						// 	type: "aki",          // authority key identifier
+						// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
+						// }
+					}
+				]
+			}
+		]
+	}
+
 	async getProfile(userSession: AuthorizationServerState): Promise<CredentialView | null> {
 		if (!userSession?.pid_id) {
 			return null;
@@ -282,6 +303,7 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 	}
 
 	exportCredentialSupportedObject(): any {
+		console.log("Disclosure values:", this.getDisclosureValues());
 		return {
 			scope: this.getScope(),
 			vct: this.metadata().vct,
@@ -301,27 +323,8 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema()),
 			disclosure_policy: {
 				policy: "attestationBased",
-				values: [
-					{
-						claims: [],
-						// The RP must present an authz_attestation credential
-						credentials: [
-							{
-								id: "authz_attestation",
-								format: "jwt",
-								// format: "dc+sd-jwt",
-								// meta: {
-								// 	vct_values: ["https://example.com/authz_attestation_vct"]
-								// },
-								// trusted_authorities: {
-								// 	type: "aki",          // authority key identifier
-								// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
-								// }
-							}
-						]
-					}
-				],
-				url: config.url + "/policy/pid-disclosure" // human-readable explanation
+				values: this.getDisclosureValues(),
+				url: config.url + '/disclosure-policy'  // human-readable explanation
 			}
 		}
 	}
