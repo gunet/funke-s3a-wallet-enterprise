@@ -30,7 +30,7 @@ let registrationCertJws: string | undefined;
 const regCertPath = path.join(__dirname, "../../../keys/registration-cert.jws");
 
 if (fs.existsSync(regCertPath)) {
-  registrationCertJws = fs.readFileSync(regCertPath, 'utf-8').toString().trim();
+	registrationCertJws = fs.readFileSync(regCertPath, 'utf-8').toString().trim();
 }
 
 enum ResponseMode {
