@@ -76,7 +76,6 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 	getDisclosureValues(){
 		return [
 			{
-				claims: [{ "path": ["verifier_id"] }],
 				credentials: [
 					{
 						id: "authorization_attestation",

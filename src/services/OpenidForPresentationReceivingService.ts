@@ -83,7 +83,9 @@ async function generateVerifierInfoDcSdJwt(verifierΙd: string, ephemeralJwk: ob
 				verifier_id: verifierΙd
 			};
 
-    const disclosureFrame = {verifier_id: true};
+    const disclosureFrame = {
+			verifier_id: true
+		};
 
     const minimalMetadata = {
         vct: "urn:eudi:authorization_attestation",
