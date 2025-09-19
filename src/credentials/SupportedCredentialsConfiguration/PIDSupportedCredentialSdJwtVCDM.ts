@@ -73,6 +73,26 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 		}
 	}
 
+	getDisclosureValues(){
+		return [
+			{
+				credentials: [
+					{
+						id: "authorization_attestation",
+						format: VerifiableCredentialFormat.DC_SDJWT,
+						meta: {
+							vct_values: ["urn:eudi:authorization_attestation"]
+						},
+						// trusted_authorities: {
+						// 	type: "aki",          // authority key identifier
+						// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
+						// }
+					}
+				]
+			}
+		]
+	}
+
 	async getProfile(userSession: AuthorizationServerState): Promise<CredentialView | null> {
 		if (!userSession?.pid_id) {
 			return null;
@@ -282,6 +302,7 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 	}
 
 	exportCredentialSupportedObject(): any {
+		console.log("Disclosure values:", this.getDisclosureValues());
 		return {
 			scope: this.getScope(),
 			vct: this.metadata().vct,
@@ -298,7 +319,12 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 					key_attestations_required: {},
 				}
 			},
-			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema())
+			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema()),
+			disclosure_policy: {
+				policy: "attestationBased",
+				values: this.getDisclosureValues(),
+				url: config.url + '/disclosure-policy'  // human-readable explanation
+			}
 		}
 	}
 }
