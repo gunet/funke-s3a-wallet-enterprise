@@ -27,5 +27,3 @@ setInterval(() => {
 			console.error(err);
 		});
 }, 3000);
-
-
