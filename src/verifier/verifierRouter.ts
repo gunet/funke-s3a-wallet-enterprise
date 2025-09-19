@@ -303,7 +303,11 @@ verifierRouter.use('/public/definitions/configurable-presentation-request/:prese
 		throw new Error("Selectable presentation definition is not supported for more than one descriptors currently");
 	}
 	const selectableFields = presentationDefinition.input_descriptors[0].constraints.fields.map((field: any) => {
-		return [field.name, field.path[0]]
+		return [
+			field.name,
+			field.path[0],
+			field._registrarApproved,
+		];
 	});
 
 	console.log("Selectable fields = ", selectableFields)

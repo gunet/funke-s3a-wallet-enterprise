@@ -37,6 +37,14 @@ input[type="checkbox"]:disabled + label {
 	gap: 5px;
 }
 
+.subtitle {
+	font-size: 12px;
+	color: #666;
+	margin: 1em 0 0 0;
+	text-align: justify;
+	font-style: italic;
+}
+
 #attributes-container {
 	max-height: 300px;
 	overflow-y: auto;
