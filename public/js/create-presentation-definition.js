@@ -25,4 +25,3 @@ for (const schema of schemas) {
 		})
 	})
 }
-

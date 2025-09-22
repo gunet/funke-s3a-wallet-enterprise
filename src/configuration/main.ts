@@ -16,5 +16,3 @@ export async function configurationExecution() {
 	credentialConfigurationRegistryService.register(new PorSupportedCredentialSdJwt());
 	credentialConfigurationRegistryServiceEmitter.emit('initialized');
 }
-
-

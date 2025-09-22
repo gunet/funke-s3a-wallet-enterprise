@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			? selectableFields.filter(([label, value]) => value.includes("eu.europa.ec.eudi"))
 			: selectableFields.filter(([label, value]) => !value.includes("eu.europa.ec.eudi"));
 
-		filteredFields.forEach(([label, value]) => {
+		filteredFields.forEach(([label, value, preselect]) => {
 			const fieldWrapper = document.createElement("div");
 			fieldWrapper.classList.add("checkbox-wrapper");
 
@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			input.name = "attributes[]";
 			input.value = value;
 			input.id = value;
-
+			if (preselect) {
+				input.checked = true;
+			}
 			const labelElement = document.createElement("label");
 			labelElement.htmlFor = value;
 			labelElement.textContent = label;
