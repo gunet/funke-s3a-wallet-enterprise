@@ -4,12 +4,10 @@ import { EdiplomasBlueprintSdJwtVCDM } from "../credentials/SupportedCredentials
 import { EHICSupportedCredentialSdJwtVCDM } from "../credentials/SupportedCredentialsConfiguration/EHICSupportedCredentialSdJwtVCDM";
 import { PIDSupportedCredentialMsoMdoc } from "../credentials/SupportedCredentialsConfiguration/PIDSupportedCredentialMsoMdoc";
 import { PIDSupportedCredentialSdJwtVCDM } from "../credentials/SupportedCredentialsConfiguration/PIDSupportedCredentialSdJwtVCDM";
-import { PIDSupportedCredentialSdJwtVCDM_VC } from "../credentials/SupportedCredentialsConfiguration/PIDSupportedCredentialSdJwtVCDM_VC";
 import { PorSupportedCredentialSdJwt } from "../credentials/SupportedCredentialsConfiguration/PorSupportedCredentialSdJwt";
 
 export async function configurationExecution() {
 	credentialConfigurationRegistryService.register(new PIDSupportedCredentialSdJwtVCDM());
-	credentialConfigurationRegistryService.register(new PIDSupportedCredentialSdJwtVCDM_VC());
 	credentialConfigurationRegistryService.register(new PIDSupportedCredentialMsoMdoc());
 	credentialConfigurationRegistryService.register(new EdiplomasBlueprintSdJwtVCDM());
 	credentialConfigurationRegistryService.register(new EHICSupportedCredentialSdJwtVCDM());
