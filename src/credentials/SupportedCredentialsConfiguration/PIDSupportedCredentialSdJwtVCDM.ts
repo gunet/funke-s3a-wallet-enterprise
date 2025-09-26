@@ -83,10 +83,10 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 						meta: {
 							vct_values: ["urn:eudi:authorization_attestation"]
 						},
-						// trusted_authorities: {
-						// 	type: "aki",          // authority key identifier
-						// 	values: ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"]
-						// }
+						trusted_authorities: {
+							type: "aki",          // authority key identifier
+							values: ["cc6728b90689f6d32abc5b1977055cae950777"]
+						}
 					}
 				]
 			}
