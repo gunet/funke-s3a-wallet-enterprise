@@ -276,7 +276,7 @@ section.layout {
 .card-text {
 	font-size: 1rem;
 	color: #555;
-  word-break: break-word;
+	word-break: break-word;
 }
 
 .btn {
