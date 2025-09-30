@@ -69,11 +69,11 @@ export const QESAuthorizationTransactionData = () => {
 					console.log("calculatedHash = ", calculatedHashOfExpectedObject);
 					console.log("hashB64U = ", hashB64U);
 					if (calculatedHashOfExpectedObject === hashB64U) {
-						return true;
+						return { status: true, message: "User authorized the QTSP to create QES for the document \"Example Contract\"" };
 					}
 				}
 			}
-			return false;
+			return { status: true, message: "" };
 		}
 	}
 }
@@ -104,11 +104,11 @@ export const QCRequestTransactionData = () => {
 					console.log("calculatedHash = ", calculatedHashOfExpectedObject);
 					console.log("hashB64U = ", hashB64U);
 					if (calculatedHashOfExpectedObject === hashB64U) {
-						return true;
+						return { status: true, message: "User attested the creation of Qualified Certificates" };
 					}
 				}
 			}
-			return false;
+			return { status: false, message: "" };
 		}
 	}
 }
