@@ -20,19 +20,12 @@ block layout-content
 							div(class="checkbox-controls")
 								button(class="Btn Tiny" type="button" id="select-all") Select All
 								button(class="Btn Tiny" type="button" id="select-none") Select None
-
+							p.subtitle Claims pre-selected by default correspond to those referenced in the verifier’s registration certificate
 						.attribute-selection
 							.field
 								div#attributes-container
 									h4.title(for="attribute") Select Attributes
 									// populated by JS
-
-						.field#format
-							h4.title(for="scheme") Format
-								select#type(name="format" class="dropdown")
-									option(value="dc+sd-jwt") dc+sd-jwt
-									option(value="vc+sd-jwt") vc+sd-jwt
-									option(value="dc+jpt") dc+jpt
 
 						.field
 							h4.title Query Type

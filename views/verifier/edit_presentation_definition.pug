@@ -39,36 +39,45 @@ block layout-content
 		const editor = new JSONEditor(container, options);
 
 		editor.set({
-						"id": "VerifiableId",
-						"title": "PID",
-						"description": "Personal Identification",
-						"input_descriptors": [
-							{
-								"name": "Custom PID",
-								"purpose": "wwWallet Verifier requests your credentials",
-								"constraints": {
-									"limit_disclosure": "required",
-									"fields": [
-										{
-											"name": "VC type",
-											"path": ["$.vct"],
-											"filter": {
-												"type": "string",
-												"const": "urn:eudi:pid:1"
-											}
-										}
-									]
-								},
-								"format": {
-									"dc+sd-jwt": {
-										"sd-jwt_alg_values": ["ES256"],
-										"kb-jwt_alg_values": ["ES256"]
-									}
-								},
-								"id": "SdJwtPID"
-							}
+			"credentials": [
+				{
+					"id": "CustomVerifiableId0",
+					"format": "dc+sd-jwt",
+					"meta": {
+						"vct_values": [
+							"urn:eudi:pid:1"
 						]
-					});
+					},
+					"claims": [
+						{
+							"path": [
+								"given_name"
+							]
+						},
+						{
+							"path": [
+								"family_name"
+							]
+						},
+						{
+							"path": [
+								"issuing_jurisdiction"
+							]
+						}
+					]
+				}
+			],
+			"credential_sets": [
+				{
+					"options": [
+						[
+							"CustomVerifiableId0"
+						]
+					],
+					"purpose": "Purpose not specified"
+				}
+			]
+		});
 
 		document.querySelector('#edit-presentation-definition').addEventListener('submit', (e) => {
 			e.preventDefault();

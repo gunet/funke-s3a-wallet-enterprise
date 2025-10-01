@@ -64,13 +64,33 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 
 	getDisplay() {
 		return {
-			name: `PID ARF 1.8 (${this.getFormat()})`,
+			name: "PID",
 			description: "Person Identification Data",
 			background_image: { uri: config.url + "/images/background-image.png" },
 			background_color: "#1b263b",
 			text_color: "#FFFFFF",
 			locale: 'en-US',
 		}
+	}
+
+	getDisclosureValues(){
+		return [
+			{
+				credentials: [
+					{
+						id: "authorization_attestation",
+						format: VerifiableCredentialFormat.DC_SDJWT,
+						meta: {
+							vct_values: ["urn:eudi:authorization_attestation"]
+						},
+						trusted_authorities: {
+							type: "aki",          // authority key identifier
+							values: ["cc6728b90689f6d32abc5b1977055cae91150777"]
+						}
+					}
+				]
+			}
+		]
 	}
 
 	async getProfile(userSession: AuthorizationServerState): Promise<CredentialView | null> {
@@ -282,6 +302,7 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 	}
 
 	exportCredentialSupportedObject(): any {
+		console.log("Disclosure values:", this.getDisclosureValues());
 		return {
 			scope: this.getScope(),
 			vct: this.metadata().vct,
@@ -298,7 +319,12 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 					key_attestations_required: {},
 				}
 			},
-			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema())
+			claims:convertSdjwtvcToOpenid4vciClaims(this.metadata().claims, this.schema()),
+			disclosure_policy: {
+				policy: "attestationBased",
+				values: this.getDisclosureValues(),
+				url: config.url + '/disclosure-policy'  // human-readable explanation
+			}
 		}
 	}
 }

@@ -21,10 +21,18 @@ import { TransactionData } from "../TransactionData/TransactionData";
 import { serializePresentationDefinition } from "../lib/serializePresentationDefinition";
 import { DcqlPresentationResult } from 'dcql';
 import { pemToBase64 } from "../util/pemToBase64";
+import { signer } from "../lib/signer";
 import { parseJpt } from "wallet-common/dist/jpt";
 
 const privateKeyPem = fs.readFileSync(path.join(__dirname, "../../../keys/pem.key"), 'utf-8').toString();
 const leafCert = fs.readFileSync(path.join(__dirname, "../../../keys/pem.crt"), 'utf-8').toString();
+
+let registrationCertJws: string | undefined;
+const regCertPath = path.join(__dirname, "../../../keys/registration-cert.jws");
+
+if (fs.existsSync(regCertPath)) {
+	registrationCertJws = fs.readFileSync(regCertPath, 'utf-8').toString().trim();
+}
 
 enum ResponseMode {
 	DIRECT_POST = 'direct_post',
@@ -68,6 +76,35 @@ const response_mode: ResponseMode = config?.presentationFlow?.response_mode ? Re
 
 // 	return base64UrlString;
 // }
+
+async function generateVerifierInfoDcSdJwt(verifierΙd: string, ephemeralJwk: object) {
+		const payload = {
+				iss: verifierΙd,
+				sub: "x509_san_dns:" + verifierΙd,
+				cnf: { jwk: ephemeralJwk },
+				iat: Math.floor(Date.now() / 1000),
+				jti: `urn:verifier:${base64url.encode(verifierΙd)}:${Math.floor(Date.now() / 1000)}`,
+				vct: "urn:eudi:authorization_attestation",
+				verifier_id: verifierΙd
+			};
+
+		const disclosureFrame = {
+			verifier_id: true
+		};
+
+		const minimalMetadata = {
+				vct: "urn:eudi:authorization_attestation",
+				display: [{ name: "Verifier Attestation", description: "Verifier Info VC" }]
+		};
+
+		const { credential } = await signer.signSdJwtVc(
+				payload,
+				{ typ: VerifiableCredentialFormat.DC_SDJWT, vctm: [base64url.encode(JSON.stringify(minimalMetadata))] },
+				disclosureFrame
+		);
+
+		return credential;
+}
 
 @injectable()
 export class OpenidForPresentationsReceivingService implements OpenidForPresentationsReceivingInterface {
@@ -150,8 +187,24 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 						.generateTransactionDataRequestObject(cred.id);
 				}));
 		}
+		// const verifierInfoJwt = await new SignJWT({
+		// 	iss: new URL(responseUri).hostname,
+		// 	sub: "x509_san_dns:" + new URL(responseUri).hostname,
+		// 	cnf: { jwk: exportedEphPub },
+		// })
+		// 	.setProtectedHeader({
+		// 		alg: 'ES256',
+		// 		x5c: x5c,
+		// 	})
+		// 	.setIssuedAt()
+		// 	.setExpirationTime("5m")
+		// 	.sign(rsaImportedPrivateKey);
 
 		transactionDataObject = transactionDataObject.filter((td) => td !== null);
+		const verifierInfoDcSdJwt = await generateVerifierInfoDcSdJwt(
+				new URL(responseUri).hostname,
+				exportedEphPub
+		);
 		const signedRequestObject = await new SignJWT({
 			response_uri: responseUri,
 			aud: "https://self-issued.me/v2",
@@ -193,7 +246,26 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 					}
 				}
 			},
-			transaction_data: transactionDataObject.length > 0 ? transactionDataObject : undefined
+			transaction_data: transactionDataObject.length > 0 ? transactionDataObject : undefined,
+			verifier_attestations: registrationCertJws
+				? [
+						{
+							format: "jwt",
+							data: registrationCertJws
+						}
+					]
+				: undefined,
+			verifier_info: [
+				// {
+				// 	"format": "jwt",
+				// 	"data": verifierInfoJwt,
+				// 	"credential_ids": ["authorization_attestation"]
+				// },
+				{
+					"format": "dc+sd-jwt",
+					"data": verifierInfoDcSdJwt
+				},
+			]
 		})
 			.setIssuedAt()
 			.setProtectedHeader({
