@@ -540,7 +540,7 @@ export class OpenidForPresentationsReceivingService implements OpenidForPresenta
 				}
 			}
 
-			if (desc.format == VerifiableCredentialFormat.DC_JPT) {
+			else if (desc.format == VerifiableCredentialFormat.DC_JPT) {
 				// const sdJwt = vp_token.split('~').slice(0, -1).join('~') + '~';
 				const input_descriptor = rpState!.presentation_definition!.input_descriptors.filter((input_desc: any) => input_desc.id == desc.id)[0];
 				if (!input_descriptor) {
