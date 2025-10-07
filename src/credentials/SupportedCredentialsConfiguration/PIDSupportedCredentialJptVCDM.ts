@@ -65,7 +65,7 @@ export class PIDSupportedCredentialJptVCDM implements VCDMSupportedCredentialPro
 
 	getDisplay() {
 		return {
-			name: `PID ARF 1.8 (${this.getFormat()})`,
+			name: `PID (${this.getFormat()})`,
 			description: "Person Identification Data",
 			background_image: { uri: config.url + "/images/background-image.png" },
 			background_color: "#1b263b",
