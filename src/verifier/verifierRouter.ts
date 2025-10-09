@@ -474,38 +474,12 @@ verifierRouter.use('/public/definitions/presentation-request/:presentation_defin
 			// Determine the presentation format based on the 'type' (sd-jwt or mdoc) provided by the form
 			const selectedType = req.body.type // Default to sd-jwt if type is not provided
 			if (selectedType === "sd-jwt") {
-				const selectedFormat = req.body.format;
-				switch (selectedFormat) {
-					case "vc+sd-jwt":
-						presentationDefinition.input_descriptors[0].format = {
-							"vc+sd-jwt": {
-								"sd-jwt_alg_values": ["ES256"],
-								"kb-jwt_alg_values": ["ES256"]
-							},
-						};
-						break;
-
-					case "dc+sd-jwt":
-						presentationDefinition.input_descriptors[0].format = {
-							"dc+sd-jwt": {
-								"sd-jwt_alg_values": ["ES256"],
-								"kb-jwt_alg_values": ["ES256"]
-							},
-						};
-						break;
-
-					case "dc+jpt":
-						presentationDefinition.input_descriptors[0].format = {
-							"dc+jpt": {
-								proof_signing_alg_values_supported: ["experimental/SplitBBSv2.1"],
-							},
-						};
-						break;
-
-					default:
-						throw new Error("Unimplemented credential format: " + selectedFormat);
-				}
-
+				presentationDefinition.input_descriptors[0].format = {
+					"dc+sd-jwt": {
+						"sd-jwt_alg_values": ["ES256"],
+						"kb-jwt_alg_values": ["ES256"]
+					}
+				};
 			} else if (selectedType === "mdoc") {
 				presentationDefinition.input_descriptors[0].format = {
 					"mso_mdoc": {

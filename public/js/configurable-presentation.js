@@ -15,9 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const calculateDescriptorId = () => {
 		const type = typeDropdown.value;
-		const jptMap = {
-			CustomVerifiableId: "JptPID",
-		};
 
 		const sdJwtMap = {
 			CustomVerifiableId: "SdJwtPID",
@@ -31,9 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			CustomVerifiableId: "eu.europa.ec.eudi.pid.1"
 		};
 
-		if (type === "jpt" && jptMap[presentationDefinitionId]) {
-			return jptMap[presentationDefinitionId];
-		} else if (type === "sd-jwt" && sdJwtMap[presentationDefinitionId]) {
+		if (type === "sd-jwt" && sdJwtMap[presentationDefinitionId]) {
 			return sdJwtMap[presentationDefinitionId];
 		} else if (type === "mdoc" && mdocMap[presentationDefinitionId]) {
 			return mdocMap[presentationDefinitionId];
