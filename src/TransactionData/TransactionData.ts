@@ -50,7 +50,7 @@ export const QESAuthorizationTransactionData = () => {
 			documentDigests: [
 				{
 					hash: "some-hash-of-the-document",
-					label: "Example Contract",
+					label: "Personal Loan Agreement",
 					hashType: "sodr"
 				}
 			],
@@ -69,7 +69,7 @@ export const QESAuthorizationTransactionData = () => {
 					console.log("calculatedHash = ", calculatedHashOfExpectedObject);
 					console.log("hashB64U = ", hashB64U);
 					if (calculatedHashOfExpectedObject === hashB64U) {
-						return { status: true, message: "User authorized the QTSP to create QES for the document \"Example Contract\"" };
+						return { status: true, message: "User authorized the QTSP to create QES for the document \"Personal Loan Agreement\"" };
 					}
 				}
 			}
