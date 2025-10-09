@@ -85,7 +85,10 @@ export class PIDSupportedCredentialSdJwtVCDM implements VCDMSupportedCredentialP
 						},
 						trusted_authorities: {
 							type: "aki",          // authority key identifier
-							values: ["cc6728b90689f6d32abc5b1977055cae91150777"]
+							values: [
+								"cc6728b90689f6d32abc5b1977055cae91150777", // funke verifier
+								"d071aedd3fbf5aa877c8d89fcfdb0d77e1cf052e"  // funke issuer (for PID authn)
+							]
 						}
 					}
 				]
