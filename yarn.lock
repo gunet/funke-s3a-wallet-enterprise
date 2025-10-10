@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@auth0/mdl@^2.0.2":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@auth0/mdl/-/mdl-2.2.0.tgz#b87e072cb9c048a5385ce849e888f7a1813ecd56"
-  integrity sha512-zyPNseEqt1YqbJGgv0zOfSnQEb6eOXRzaG+GgIehATQO54DKT4WLmwta/jZj6Bn0FhALriQFL1oq6HeqRXU83Q==
+"@auth0/mdl@^2.2.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@auth0/mdl/-/mdl-2.3.0.tgz#1d2bbac7cf7346e7e3e952a0720e244d1cff2605"
+  integrity sha512-TZYep/SEdsg9LuD/WkRWdtM4r1rEdSAIIoFv/uD4U62vDnFoQ/Jt+K9nh83ixIHQkB6Ft7nZSiDaIHXTONc+sw==
   dependencies:
     "@noble/curves" "^1.2.0"
     "@panva/hkdf" "^1.1.1"
@@ -3200,12 +3200,11 @@ void-elements@^3.1.0:
   resolved "https://registry.npmjs.org/void-elements/-/void-elements-3.1.0.tgz"
   integrity sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==
 
-"wallet-common@git+https://github.com/wwwallet/wallet-common.git#266ad8929274b78538a2a02c46fcd8b2bf882e76":
+"wallet-common@git+https://github.com/wwWallet/wallet-common.git#ce020cd8a18c80a8c7803eb37f62336802578f70":
   version "0.0.1"
-  resolved "git+https://github.com/wwwallet/wallet-common.git#266ad8929274b78538a2a02c46fcd8b2bf882e76"
+  resolved "git+https://github.com/wwWallet/wallet-common.git#ce020cd8a18c80a8c7803eb37f62336802578f70"
   dependencies:
     "@auth0/mdl" "^2.2.0"
-    "@noble/curves" "^1.9.4"
     "@sd-jwt/core" "^0.10.0"
     "@sd-jwt/sd-jwt-vc" "^0.13.0"
     ajv "^8.17.1"
